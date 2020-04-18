@@ -1,2 +1,2 @@
 # buttonup
-Android client for the [Buttondown](buttondown.email) newsletter service.
+Android client for the [Buttondown](https://api.buttondown.email/) newsletter service.
