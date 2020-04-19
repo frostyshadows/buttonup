@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.sherryyuan.buttonup.drafts.DraftsFragment
 import com.sherryyuan.buttonup.subscribers.SubscribersFragment
 
 class MainActivity : FragmentActivity() {
@@ -15,6 +16,7 @@ class MainActivity : FragmentActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_drafts -> {
+                replaceFragment(DraftsFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_subscribers -> {
