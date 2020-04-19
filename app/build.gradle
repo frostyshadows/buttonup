@@ -19,6 +19,9 @@ android {
         targetCompatibility = "8"
         sourceCompatibility = "8"
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -51,4 +54,7 @@ dependencies {
 
     // Gson
     implementation "com.google.code.gson:gson:2.8.6"
+
+    // Kodein
+    implementation 'org.kodein.di:kodein-di-generic-jvm:6.5.5'
 }
