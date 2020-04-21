@@ -1,4 +1,4 @@
-package com.sherryyuan.buttonup.networking
+package com.sherryyuan.buttonup.kodein
 
 import com.google.gson.GsonBuilder
 import org.kodein.di.Kodein

@@ -12,7 +12,7 @@ import com.sherryyuan.buttonup.R
 
 class SubscribersFragment : SubscribersContract.View, Fragment() {
 
-    override val presenter = SubscribersPresenter(this)
+    override lateinit var presenter: SubscribersContract.Presenter
 
     private var subscribers: MutableList<Subscriber> = mutableListOf()
 
@@ -23,6 +23,7 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        presenter = SubscribersPresenter(this, requireNotNull(context))
         presenter.start()
         fetchSubscribers()
     }
