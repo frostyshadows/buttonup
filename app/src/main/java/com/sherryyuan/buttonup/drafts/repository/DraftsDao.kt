@@ -5,13 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.sherryyuan.buttonup.drafts.Draft
-import io.reactivex.Observable
+import io.reactivex.Maybe
 
 @Dao
 interface DraftsDao {
 
     @Query("SELECT * FROM draft")
-    fun getAll(): Observable<List<Draft>>
+    fun getAll(): Maybe<List<Draft>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(drafts: List<Draft>)

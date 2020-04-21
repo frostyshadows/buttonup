@@ -7,5 +7,6 @@ import com.sherryyuan.buttonup.drafts.repository.DraftsDao
 
 @Database(entities = [Draft::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun draftsDao(): DraftsDao
 }

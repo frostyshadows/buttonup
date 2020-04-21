@@ -27,7 +27,7 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = DraftsPresenter(this, requireContext())
+        presenter = DraftsPresenter(this)
         presenter.start()
         fetchDrafts()
     }

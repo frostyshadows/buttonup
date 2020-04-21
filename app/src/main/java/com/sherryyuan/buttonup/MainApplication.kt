@@ -3,7 +3,6 @@ package com.sherryyuan.buttonup
 import android.app.Application
 import androidx.room.Room
 import com.sherryyuan.buttonup.drafts.draftsModule
-import com.sherryyuan.buttonup.kodein.appModule
 import com.sherryyuan.buttonup.kodein.networkingModule
 import com.sherryyuan.buttonup.subscribers.subscribersModule
 import org.kodein.di.Kodein
@@ -14,8 +13,18 @@ import org.kodein.di.generic.singleton
 
 class MainApplication : Application(), KodeinAware {
 
+    companion object {
+        lateinit var appModule: Kodein.Module
+    }
+
     override val kodein by Kodein.lazy {
-        appModule = appModule.copy {
+        import(appModule)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        appModule = Kodein.Module("appModule") {
             bind<AppDatabase>() with singleton {
                 Room.databaseBuilder(
                     applicationContext,
@@ -26,6 +35,5 @@ class MainApplication : Application(), KodeinAware {
             import(subscribersModule)
             import(draftsModule)
         }
-        import(appModule)
     }
 }

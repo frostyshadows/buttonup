@@ -23,7 +23,7 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = SubscribersPresenter(this, requireNotNull(context))
+        presenter = SubscribersPresenter(this)
         presenter.start()
         fetchSubscribers()
     }
