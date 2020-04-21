@@ -1,5 +1,6 @@
 package com.sherryyuan.buttonup.subscribers
 
+import com.sherryyuan.buttonup.applicationModule
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -10,7 +11,7 @@ import org.kodein.di.generic.instance
 class SubscribersPresenter(override val view: SubscribersContract.View) : SubscribersContract.Presenter, KodeinAware {
 
     override val kodein = Kodein {
-        import(subscribersModule)
+        import(applicationModule)
     }
 
     private val repository: SubscribersRepository by instance()
