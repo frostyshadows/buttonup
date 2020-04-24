@@ -1,6 +1,7 @@
-package com.sherryyuan.buttonup.drafts
+package com.sherryyuan.buttonup.drafts.draftslist
 
 import com.sherryyuan.buttonup.MainApplication.Companion.appModule
+import com.sherryyuan.buttonup.drafts.draftslist.DraftsListContract
 import com.sherryyuan.buttonup.drafts.repository.DraftsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -9,7 +10,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 
-class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.Presenter,
+class DraftsListPresenter(override val view: DraftsListContract.View) : DraftsListContract.Presenter,
     KodeinAware {
 
     override val kodein by Kodein.lazy {
@@ -22,16 +23,21 @@ class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.P
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
+        fetchDrafts()
+    }
+
+    override fun refresh() {
+        fetchDrafts(true)
     }
 
     override fun stop() {
         compositeDisposable.clear()
     }
 
-    override fun fetchDrafts() {
+    private fun fetchDrafts(forceRefresh: Boolean = false) {
         compositeDisposable.add(
             repository
-                .getDrafts()
+                .getDrafts(forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
