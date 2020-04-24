@@ -1,5 +1,7 @@
 package com.sherryyuan.buttonup.drafts
 
+import com.sherryyuan.buttonup.MainApplication.Companion.appModule
+import com.sherryyuan.buttonup.drafts.repository.DraftsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -7,10 +9,11 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 
-class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.Presenter, KodeinAware {
+class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.Presenter,
+    KodeinAware {
 
-    override val kodein = Kodein {
-        import(draftsModule)
+    override val kodein by Kodein.lazy {
+        import(appModule)
     }
 
     private val repository: DraftsRepository by instance()
@@ -32,7 +35,7 @@ class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.P
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    view.updateDrafts(it.results)
+                    view.updateDrafts(it)
                 }, {
                     it.message
                 })

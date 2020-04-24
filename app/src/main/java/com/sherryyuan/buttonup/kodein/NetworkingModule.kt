@@ -1,4 +1,4 @@
-package com.sherryyuan.buttonup.networking
+package com.sherryyuan.buttonup.kodein
 
 import com.google.gson.GsonBuilder
 import org.kodein.di.Kodein
@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-val networkingModule = Kodein.Module("mainModule") {
+val networkingModule = Kodein.Module("networkingModule") {
     bind<Retrofit>(tag = "buttondown") with singleton {
         Retrofit.Builder()
             .baseUrl("https://api.buttondown.email/")
