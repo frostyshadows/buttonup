@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sherryyuan.buttonup.R
+import com.sherryyuan.buttonup.drafts.SavedDraft
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.sherryyuan.buttonup.drafts.Draft
 
 
 class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
@@ -21,15 +21,15 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
 
     override lateinit var presenter: DraftsListContract.Presenter
 
-    private var drafts: MutableList<Draft> = mutableListOf()
+    private var drafts: MutableList<SavedDraft> = mutableListOf()
 
     private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         presenter = DraftsListPresenter(this)
         presenter.start()
@@ -47,7 +47,7 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
         presenter.stop()
     }
 
-    override fun updateDrafts(drafts: List<Draft>) {
+    override fun updateDrafts(drafts: List<SavedDraft>) {
         swipeContainer.isRefreshing = false
         this.drafts.clear()
         this.drafts.addAll(drafts)
@@ -69,7 +69,7 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
     }
 }
 
-class DraftsAdapter(private val drafts: List<Draft>) :
+class DraftsAdapter(private val drafts: List<SavedDraft>) :
     RecyclerView.Adapter<DraftsAdapter.ViewHolder>() {
 
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)

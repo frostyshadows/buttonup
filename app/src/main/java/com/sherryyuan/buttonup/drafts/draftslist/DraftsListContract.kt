@@ -1,12 +1,12 @@
 package com.sherryyuan.buttonup.drafts.draftslist
 
-import com.sherryyuan.buttonup.drafts.Draft
+import com.sherryyuan.buttonup.drafts.SavedDraft
 
 interface DraftsListContract {
 
     interface View {
         val presenter: Presenter
-        fun updateDrafts(drafts: List<Draft>)
+        fun updateDrafts(drafts: List<SavedDraft>)
     }
 
     interface Presenter {

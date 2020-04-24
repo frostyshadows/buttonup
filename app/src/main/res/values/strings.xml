@@ -4,4 +4,8 @@
     <string name="subscribers">Subscribers</string>
     <string name="archives">Archives</string>
     <string name="write">Write</string>
+    <string name="subject">Subject</string>
+    <string name="body">Body</string>
+    <string name="save">Save</string>
+    <string name="send">Send</string>
 </resources>
