@@ -10,7 +10,7 @@ interface DraftsContract {
     interface Presenter {
         val view: View
         fun start()
+        fun refresh()
         fun stop()
-        fun fetchDrafts()
     }
 }

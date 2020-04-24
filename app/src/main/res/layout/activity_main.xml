@@ -11,11 +11,22 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
         android:layout_margin="@dimen/activity_default_margin"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/activity_default_margin"
+        android:contentDescription="@string/write"
+        android:src="@drawable/pencil"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_container"
+        app:layout_constraintRight_toRightOf="@id/fragment_container" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

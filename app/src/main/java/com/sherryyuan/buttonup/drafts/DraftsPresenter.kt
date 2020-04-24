@@ -22,16 +22,21 @@ class DraftsPresenter(override val view: DraftsContract.View) : DraftsContract.P
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
+        fetchDrafts()
+    }
+
+    override fun refresh() {
+        fetchDrafts(true)
     }
 
     override fun stop() {
         compositeDisposable.clear()
     }
 
-    override fun fetchDrafts() {
+    private fun fetchDrafts(forceRefresh: Boolean = false) {
         compositeDisposable.add(
             repository
-                .getDrafts()
+                .getDrafts(forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

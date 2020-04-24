@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sherryyuan.buttonup.R
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+
 
 class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
 
@@ -20,6 +23,7 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
 
     private var drafts: MutableList<Draft> = mutableListOf()
 
+    private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -29,7 +33,6 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
 
         presenter = DraftsPresenter(this)
         presenter.start()
-        fetchDrafts()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,6 +48,7 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
     }
 
     override fun updateDrafts(drafts: List<Draft>) {
+        swipeContainer.isRefreshing = false
         this.drafts.clear()
         this.drafts.addAll(drafts)
         viewAdapter.notifyDataSetChanged()
@@ -54,15 +58,14 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
         viewManager = LinearLayoutManager(context)
         viewAdapter = DraftsAdapter(drafts)
 
+        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
+            setOnRefreshListener { presenter.refresh() }
+        }
         recyclerView = view.findViewById<RecyclerView>(R.id.list_drafts).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
-    }
-
-    private fun fetchDrafts() {
-        presenter.fetchDrafts()
     }
 }
 

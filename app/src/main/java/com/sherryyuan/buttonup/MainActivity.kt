@@ -36,6 +36,7 @@ class MainActivity : FragmentActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        navView.selectedItemId = R.id.navigation_drafts
     }
 
     private fun replaceFragment(fragment: Fragment) {
