@@ -23,6 +23,9 @@ class DraftsRepository : KodeinAware {
             roomDao.getAll().filter { it.isNotEmpty() }.switchIfEmpty(getDraftsFromNetwork())
         }
 
+    fun saveDraft(draft: Draft): Single<Unit> =
+        service.saveDraft(draft)
+
     private fun getDraftsFromNetwork(): Single<List<Draft>> =
         service.getDrafts().map { response ->
             response.results.also {

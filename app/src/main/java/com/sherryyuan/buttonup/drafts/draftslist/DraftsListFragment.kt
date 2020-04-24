@@ -1,4 +1,4 @@
-package com.sherryyuan.buttonup.drafts
+package com.sherryyuan.buttonup.drafts.draftslist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +12,14 @@ import com.sherryyuan.buttonup.R
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.sherryyuan.buttonup.drafts.Draft
 
 
-
-class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
+class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
 
     override val kodein by closestKodein()
 
-    override lateinit var presenter: DraftsContract.Presenter
+    override lateinit var presenter: DraftsListContract.Presenter
 
     private var drafts: MutableList<Draft> = mutableListOf()
 
@@ -31,12 +31,12 @@ class DraftsFragment : DraftsContract.View, Fragment(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = DraftsPresenter(this)
+        presenter = DraftsListPresenter(this)
         presenter.start()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_drafts, container, false).apply {
+        return inflater.inflate(R.layout.fragment_drafts_list, container, false).apply {
             setupDraftsList(this)
         }
     }

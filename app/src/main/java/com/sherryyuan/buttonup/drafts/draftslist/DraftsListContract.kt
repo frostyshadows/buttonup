@@ -1,6 +1,8 @@
-package com.sherryyuan.buttonup.drafts
+package com.sherryyuan.buttonup.drafts.draftslist
 
-interface DraftsContract {
+import com.sherryyuan.buttonup.drafts.Draft
+
+interface DraftsListContract {
 
     interface View {
         val presenter: Presenter
