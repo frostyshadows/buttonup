@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sherryyuan.buttonup.R
 
 class SubscribersFragment : SubscribersContract.View, Fragment() {
@@ -16,6 +17,7 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
 
     private var subscribers: MutableList<Subscriber> = mutableListOf()
 
+    private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -25,7 +27,6 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
 
         presenter = SubscribersPresenter(this)
         presenter.start()
-        fetchSubscribers()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,6 +42,7 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
     }
 
     override fun updateSubscribersList(subscribers: List<Subscriber>) {
+        swipeContainer.isRefreshing = false
         this.subscribers.clear()
         this.subscribers.addAll(subscribers)
         viewAdapter.notifyDataSetChanged()
@@ -50,15 +52,15 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
         viewManager = LinearLayoutManager(context)
         viewAdapter = SubscribersAdapter(subscribers)
 
+        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
+            setOnRefreshListener { presenter.refresh() }
+        }
+
         recyclerView = view.findViewById<RecyclerView>(R.id.list_subscribers).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
-    }
-
-    private fun fetchSubscribers() {
-        presenter.fetchSubscribers()
     }
 }
 

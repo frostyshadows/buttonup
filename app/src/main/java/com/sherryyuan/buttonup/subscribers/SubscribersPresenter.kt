@@ -1,6 +1,7 @@
 package com.sherryyuan.buttonup.subscribers
 
 import com.sherryyuan.buttonup.MainApplication
+import com.sherryyuan.buttonup.subscribers.repository.SubscribersRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,21 +22,28 @@ class SubscribersPresenter(override val view: SubscribersContract.View) :
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
+        fetchSubscribers()
+    }
+
+    override fun refresh() {
+        fetchSubscribers(true)
     }
 
     override fun stop() {
         compositeDisposable.clear()
     }
 
-    override fun fetchSubscribers() {
+    private fun fetchSubscribers(forceRefresh: Boolean = false) {
         compositeDisposable.add(
             repository
                 .getSubscribers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.updateSubscribersList(it.results)
-                }
+                .subscribe({
+                    view.updateSubscribersList(it)
+                }, {
+                    // No op
+                })
         )
     }
 }
