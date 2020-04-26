@@ -43,7 +43,7 @@ class DraftsListPresenter(override val view: DraftsListContract.View) : DraftsLi
                 .subscribe({
                     view.updateDrafts(it)
                 }, {
-                    it.message
+                    // No op
                 })
         )
     }

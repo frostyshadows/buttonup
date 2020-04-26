@@ -10,7 +10,7 @@ interface SubscribersContract {
     interface Presenter {
         val view: View
         fun start()
+        fun refresh()
         fun stop()
-        fun fetchSubscribers()
     }
 }
