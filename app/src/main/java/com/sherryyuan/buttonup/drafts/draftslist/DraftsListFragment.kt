@@ -72,17 +72,22 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
 class DraftsAdapter(private val drafts: List<SavedDraft>) :
     RecyclerView.Adapter<DraftsAdapter.ViewHolder>() {
 
-    class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val textView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_draft, parent, false) as TextView
-        return ViewHolder(textView)
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val subjectText: TextView = view.findViewById(R.id.subject_text)
+        val bodyText: TextView = view.findViewById(R.id.body_text)
+        val modificationDateText: TextView = view.findViewById(R.id.modification_date_text)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_draft, parent, false)
+        )
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = drafts[position].subject
+        holder.subjectText.text = drafts[position].subject
+        holder.bodyText.text = drafts[position].body
+        holder.modificationDateText.text = drafts[position].modificationDate
     }
 
     override fun getItemCount() = drafts.size

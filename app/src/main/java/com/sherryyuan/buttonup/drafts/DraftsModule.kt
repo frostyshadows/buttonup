@@ -1,7 +1,7 @@
 package com.sherryyuan.buttonup.drafts
 
 import com.sherryyuan.buttonup.AppDatabase
-import com.sherryyuan.buttonup.drafts.repository.DraftsDao
+import com.sherryyuan.buttonup.drafts.repository.DraftsListDao
 import com.sherryyuan.buttonup.drafts.repository.DraftsRepository
 import com.sherryyuan.buttonup.drafts.repository.DraftsService
 import org.kodein.di.Kodein
@@ -17,7 +17,7 @@ val draftsModule = Kodein.Module("draftsModule") {
         instance<Retrofit>("buttondown").create(DraftsService::class.java)
     }
 
-    bind<DraftsDao>() with provider { instance<AppDatabase>().draftsDao() }
+    bind<DraftsListDao>() with provider { instance<AppDatabase>().draftsListDao() }
 
     bind<DraftsRepository>() with singleton { DraftsRepository() }
 }

@@ -15,7 +15,7 @@ class DraftsRepository : KodeinAware {
     }
 
     private val service: DraftsService by instance()
-    private val roomDao: DraftsDao by instance()
+    private val roomDao: DraftsListDao by instance()
 
     fun getDrafts(forceRefresh: Boolean = false): Single<List<SavedDraft>> =
         if (forceRefresh) {

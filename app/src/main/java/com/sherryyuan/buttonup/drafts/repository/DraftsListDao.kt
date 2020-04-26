@@ -8,7 +8,7 @@ import com.sherryyuan.buttonup.drafts.SavedDraft
 import io.reactivex.Maybe
 
 @Dao
-interface DraftsDao {
+interface DraftsListDao {
 
     @Query("SELECT * FROM saveddraft")
     fun getAll(): Maybe<List<SavedDraft>>
