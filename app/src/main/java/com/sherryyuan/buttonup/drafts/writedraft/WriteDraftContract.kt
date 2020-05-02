@@ -15,4 +15,8 @@ interface WriteDraftContract {
         fun stop()
         fun saveDraft(draft: LocalDraft)
     }
+
+    interface DismissListener {
+        fun onWriteDraftDismissed()
+    }
 }

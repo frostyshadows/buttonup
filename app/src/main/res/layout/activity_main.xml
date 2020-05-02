@@ -24,9 +24,11 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/activity_default_margin"
         android:contentDescription="@string/write"
-        android:src="@drawable/pencil"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/fragment_container"
-        app:layout_constraintRight_toRightOf="@id/fragment_container" />
+        app:layout_constraintRight_toRightOf="@id/fragment_container"
+        app:srcCompat="@drawable/pencil"
+        app:tint="@color/white" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

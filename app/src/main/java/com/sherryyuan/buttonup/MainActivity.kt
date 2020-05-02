@@ -2,18 +2,23 @@ package com.sherryyuan.buttonup
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sherryyuan.buttonup.drafts.draftslist.DraftsListFragment
+import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftContract
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftFragment
 import com.sherryyuan.buttonup.subscribers.SubscribersFragment
 
-class MainActivity : FragmentActivity() {
+class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
 
     @IdRes
     private val fragmentContainerId: Int = R.id.fragment_container
+    private lateinit var floatingActionButton: FloatingActionButton
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -37,7 +42,17 @@ class MainActivity : FragmentActivity() {
         setContentView(R.layout.activity_main)
 
         setupBottomNavigation()
+        floatingActionButton = findViewById(R.id.fab)
         setupFloatingActionButton()
+    }
+
+    override fun onWriteDraftDismissed() {
+        // Hide keyboard.
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        if (inputMethodManager.isAcceptingText) {
+            inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, /*flags:*/ 0)
+        }
+        floatingActionButton.isVisible = true
     }
 
     private fun setupBottomNavigation() {
@@ -48,9 +63,13 @@ class MainActivity : FragmentActivity() {
     }
 
     private fun setupFloatingActionButton() {
-        val floatingActionButton: View = findViewById(R.id.fab)
         floatingActionButton.setOnClickListener {
-            replaceFragment(WriteDraftFragment())
+            supportFragmentManager
+                .beginTransaction()
+                .add(fragmentContainerId, WriteDraftFragment(this))
+                .addToBackStack(null)
+                .commit()
+            floatingActionButton.isVisible = false
         }
     }
 
