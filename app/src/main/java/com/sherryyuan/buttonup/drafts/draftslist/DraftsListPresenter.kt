@@ -40,8 +40,8 @@ class DraftsListPresenter(override val view: DraftsListContract.View) : DraftsLi
                 .getDrafts(forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.updateDrafts(it)
+                .subscribe({ drafts ->
+                    view.updateDrafts(drafts.sortedByDescending { it.modificationDate })
                 }, {
                     // No op
                 })

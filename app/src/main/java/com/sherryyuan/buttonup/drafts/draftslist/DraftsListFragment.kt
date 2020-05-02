@@ -1,6 +1,7 @@
 package com.sherryyuan.buttonup.drafts.draftslist
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import com.sherryyuan.buttonup.R
 import com.sherryyuan.buttonup.drafts.SavedDraft
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
@@ -87,8 +90,18 @@ class DraftsAdapter(private val drafts: List<SavedDraft>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.subjectText.text = drafts[position].subject
         holder.bodyText.text = drafts[position].body
-        holder.modificationDateText.text = drafts[position].modificationDate
+        holder.modificationDateText.text = drafts[position].modificationDate.toHumanReadableDateString()
     }
 
     override fun getItemCount() = drafts.size
+
+    private fun String.toHumanReadableDateString(): String {
+        val date: Date? = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(this)
+
+        val month: CharSequence = DateFormat.format("MMM", date) // Jun
+        val day: CharSequence = DateFormat.format("dd", date) // 29
+        val year: CharSequence = DateFormat.format("yyyy", date) // 2020
+
+        return "$month $day, $year"
+    }
 }

@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.sherryyuan.buttonup.R
 import com.sherryyuan.buttonup.drafts.LocalDraft
 
-class WriteDraftFragment : WriteDraftContract.View, Fragment() {
+class WriteDraftFragment(val dismissListener: WriteDraftContract.DismissListener) :
+    WriteDraftContract.View, DialogFragment() {
 
     override lateinit var presenter: WriteDraftContract.Presenter
 
@@ -20,6 +23,7 @@ class WriteDraftFragment : WriteDraftContract.View, Fragment() {
     private lateinit var bodyText: TextInputEditText
     private lateinit var saveButton: Button
     private lateinit var sendButton: Button
+    private lateinit var closeButton: ImageButton
 
     override fun onStart() {
         super.onStart()
@@ -35,6 +39,8 @@ class WriteDraftFragment : WriteDraftContract.View, Fragment() {
             saveButton = findViewById(R.id.save_button)
             setupSaveButton()
             sendButton = findViewById(R.id.send_button)
+            closeButton = findViewById(R.id.close_button)
+            setupCloseButton()
         }
     }
 
@@ -44,8 +50,14 @@ class WriteDraftFragment : WriteDraftContract.View, Fragment() {
         presenter.stop()
     }
 
+    override fun dismiss() {
+        dismissListener.onWriteDraftDismissed()
+        super.dismiss()
+    }
+
     override fun onDraftSaved() {
         Toast.makeText(context, "Draft saved", Toast.LENGTH_SHORT).show()
+        dismiss()
 
     }
 
@@ -53,6 +65,13 @@ class WriteDraftFragment : WriteDraftContract.View, Fragment() {
         saveButton.setOnClickListener {
             val draft = LocalDraft(subjectText.text.toString(), bodyText.text.toString())
             presenter.saveDraft(draft)
+        }
+    }
+
+    private fun setupCloseButton() {
+        closeButton.setOnClickListener {
+            // TODO: Add a confirmation modal.
+            dismiss()
         }
     }
 }
