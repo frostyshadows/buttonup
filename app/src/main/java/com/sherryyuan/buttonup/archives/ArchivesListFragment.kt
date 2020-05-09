@@ -1,28 +1,25 @@
-package com.sherryyuan.buttonup.drafts.draftslist
+package com.sherryyuan.buttonup.archives
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sherryyuan.buttonup.R
-import com.sherryyuan.buttonup.drafts.SavedDraft
-import com.sherryyuan.buttonup.utils.toHumanReadableDateString
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 
 
-class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
+class ArchivesListFragment : ArchivesContract.View, Fragment(), KodeinAware {
 
     override val kodein by closestKodein()
 
-    override lateinit var presenter: DraftsListContract.Presenter
+    override lateinit var presenter: ArchivesContract.Presenter
 
-    private var drafts: MutableList<SavedDraft> = mutableListOf()
+    private var newsletters: MutableList<SentNewsletter> = mutableListOf()
 
     private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -32,13 +29,13 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
     override fun onStart() {
         super.onStart()
 
-        presenter = DraftsListPresenter(this)
+        presenter = ArchivesPresenter(this)
         presenter.start()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_drafts_list, container, false).apply {
-            setupDraftsList(this)
+        return inflater.inflate(R.layout.fragment_archives_list, container, false).apply {
+            setupNewslettersList(this)
         }
     }
 
@@ -48,21 +45,21 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
         presenter.stop()
     }
 
-    override fun updateDrafts(drafts: List<SavedDraft>) {
+    override fun updateNewsletters(newsletters: List<SentNewsletter>) {
         swipeContainer.isRefreshing = false
-        this.drafts.clear()
-        this.drafts.addAll(drafts)
+        this.newsletters.clear()
+        this.newsletters.addAll(newsletters)
         viewAdapter.notifyDataSetChanged()
     }
 
-    private fun setupDraftsList(view: View) {
+    private fun setupNewslettersList(view: View) {
         viewManager = LinearLayoutManager(context)
-        viewAdapter = DraftsAdapter(drafts)
+        viewAdapter = ArchivesListAdapter(newsletters)
 
         swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
             setOnRefreshListener { presenter.refresh() }
         }
-        recyclerView = view.findViewById<RecyclerView>(R.id.list_drafts).apply {
+        recyclerView = view.findViewById<RecyclerView>(R.id.list_archives).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter

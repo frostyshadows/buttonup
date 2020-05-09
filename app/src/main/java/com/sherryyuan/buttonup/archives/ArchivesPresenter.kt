@@ -1,7 +1,7 @@
-package com.sherryyuan.buttonup.subscribers
+package com.sherryyuan.buttonup.archives
 
-import com.sherryyuan.buttonup.MainApplication
-import com.sherryyuan.buttonup.subscribers.repository.SubscribersRepository
+import com.sherryyuan.buttonup.MainApplication.Companion.appModule
+import com.sherryyuan.buttonup.archives.repository.NewslettersRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -10,38 +10,38 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SubscribersPresenter(override val view: SubscribersContract.View) :
-    SubscribersContract.Presenter, KodeinAware {
+class ArchivesPresenter(override val view: ArchivesContract.View) : ArchivesContract.Presenter,
+    KodeinAware {
 
     override val kodein by Kodein.lazy {
-        import(MainApplication.appModule)
+        import(appModule)
     }
 
-    private val repository: SubscribersRepository by instance()
+    private val repository: NewslettersRepository by instance()
 
     private lateinit var compositeDisposable: CompositeDisposable
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
-        fetchSubscribers()
+        fetchNewsletters()
     }
 
     override fun refresh() {
-        fetchSubscribers(true)
+        fetchNewsletters(true)
     }
 
     override fun stop() {
         compositeDisposable.clear()
     }
 
-    private fun fetchSubscribers(forceRefresh: Boolean = false) {
+    private fun fetchNewsletters(forceRefresh: Boolean = false) {
         compositeDisposable.add(
             repository
-                .getSubscribers()
+                .getNewsletters(forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.updateSubscribersList(it)
+                .subscribe({ newsletters ->
+                    view.updateNewsletters(newsletters.sortedByDescending { it.creationDate })
                 }, {
                     Timber.e(it)
                 })
