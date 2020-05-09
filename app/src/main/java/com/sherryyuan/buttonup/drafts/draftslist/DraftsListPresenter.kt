@@ -1,7 +1,6 @@
 package com.sherryyuan.buttonup.drafts.draftslist
 
 import com.sherryyuan.buttonup.MainApplication.Companion.appModule
-import com.sherryyuan.buttonup.drafts.draftslist.DraftsListContract
 import com.sherryyuan.buttonup.drafts.repository.DraftsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -9,6 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
+import timber.log.Timber
 
 class DraftsListPresenter(override val view: DraftsListContract.View) : DraftsListContract.Presenter,
     KodeinAware {
@@ -43,7 +43,7 @@ class DraftsListPresenter(override val view: DraftsListContract.View) : DraftsLi
                 .subscribe({ drafts ->
                     view.updateDrafts(drafts.sortedByDescending { it.modificationDate })
                 }, {
-                    // No op
+                    Timber.e(it)
                 })
         )
     }

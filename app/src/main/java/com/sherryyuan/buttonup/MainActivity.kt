@@ -1,7 +1,6 @@
 package com.sherryyuan.buttonup
 
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.core.view.isVisible
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.sherryyuan.buttonup.archives.ArchivesListFragment
 import com.sherryyuan.buttonup.drafts.draftslist.DraftsListFragment
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftContract
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftFragment
@@ -31,6 +31,7 @@ class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_archives -> {
+                replaceFragment(ArchivesListFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }

@@ -1,7 +1,7 @@
 package com.sherryyuan.buttonup.drafts.repository
 
-import com.sherryyuan.buttonup.drafts.LocalDraft
 import com.sherryyuan.buttonup.drafts.DraftsListResponse
+import com.sherryyuan.buttonup.drafts.LocalDraft
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET

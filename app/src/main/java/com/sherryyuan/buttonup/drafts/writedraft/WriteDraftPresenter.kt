@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
+import timber.log.Timber
 
 class WriteDraftPresenter(override val view: WriteDraftContract.View) : WriteDraftContract.Presenter, KodeinAware {
 
@@ -37,7 +38,7 @@ class WriteDraftPresenter(override val view: WriteDraftContract.View) : WriteDra
                 .subscribe({
                     view.onDraftSaved()
                 }, {
-                    it.message
+                    Timber.e(it)
                 })
         )
     }
