@@ -1,10 +1,9 @@
 package com.sherryyuan.buttonup.archives
 
 import com.sherryyuan.buttonup.AppDatabase
-import com.sherryyuan.buttonup.archives.repository.NewslettersListDao
-import com.sherryyuan.buttonup.archives.repository.NewslettersRepository
-import com.sherryyuan.buttonup.archives.repository.NewslettersService
-import com.sherryyuan.buttonup.drafts.repository.DraftsService
+import com.sherryyuan.buttonup.archives.repository.EmailsListDao
+import com.sherryyuan.buttonup.archives.repository.EmailsRepository
+import com.sherryyuan.buttonup.archives.repository.EmailsService
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -14,11 +13,11 @@ import retrofit2.Retrofit
 
 val archivesModule = Kodein.Module("archivesModule") {
 
-    bind<NewslettersService>() with singleton {
-        instance<Retrofit>("buttondown").create(NewslettersService::class.java)
+    bind<EmailsService>() with singleton {
+        instance<Retrofit>("buttondown").create(EmailsService::class.java)
     }
 
-    bind<NewslettersListDao>() with provider { instance<AppDatabase>().newsLettersListDao() }
+    bind<EmailsListDao>() with provider { instance<AppDatabase>().emailsListDao() }
 
-    bind<NewslettersRepository>() with singleton { NewslettersRepository() }
+    bind<EmailsRepository>() with singleton { EmailsRepository() }
 }

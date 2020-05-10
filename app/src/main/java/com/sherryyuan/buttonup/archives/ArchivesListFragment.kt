@@ -19,7 +19,7 @@ class ArchivesListFragment : ArchivesContract.View, Fragment(), KodeinAware {
 
     override lateinit var presenter: ArchivesContract.Presenter
 
-    private var newsletters: MutableList<SentNewsletter> = mutableListOf()
+    private var emails: MutableList<SentEmail> = mutableListOf()
 
     private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -45,16 +45,16 @@ class ArchivesListFragment : ArchivesContract.View, Fragment(), KodeinAware {
         presenter.stop()
     }
 
-    override fun updateNewsletters(newsletters: List<SentNewsletter>) {
+    override fun updateEmails(emails: List<SentEmail>) {
         swipeContainer.isRefreshing = false
-        this.newsletters.clear()
-        this.newsletters.addAll(newsletters)
+        this.emails.clear()
+        this.emails.addAll(emails)
         viewAdapter.notifyDataSetChanged()
     }
 
     private fun setupNewslettersList(view: View) {
         viewManager = LinearLayoutManager(context)
-        viewAdapter = ArchivesListAdapter(newsletters)
+        viewAdapter = ArchivesListAdapter(emails)
 
         swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
             setOnRefreshListener { presenter.refresh() }

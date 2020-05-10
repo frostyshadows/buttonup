@@ -4,7 +4,7 @@ interface ArchivesContract {
 
     interface View {
         val presenter: Presenter
-        fun updateNewsletters(newsletters: List<SentNewsletter>)
+        fun updateEmails(emails: List<SentEmail>)
     }
 
     interface Presenter {
