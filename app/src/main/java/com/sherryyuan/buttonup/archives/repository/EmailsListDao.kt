@@ -4,15 +4,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.sherryyuan.buttonup.archives.SentNewsletter
+import com.sherryyuan.buttonup.archives.SentEmail
 import io.reactivex.Maybe
 
 @Dao
-interface NewslettersListDao {
+interface EmailsListDao {
 
-    @Query("SELECT * FROM sentnewsletter")
-    fun getAll(): Maybe<List<SentNewsletter>>
+    @Query("SELECT * FROM SentEmail")
+    fun getAll(): Maybe<List<SentEmail>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(drafts: List<SentNewsletter>)
+    fun insertAll(emails: List<SentEmail>)
 }

@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName
  * Represents a newsletter that only exists locally
  */
 @Entity
-data class LocalNewsletter(
-    @SerializedName("username") val username: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("description") val description: String
+data class LocalEmail(
+    @SerializedName("publish_date") val creationDate: String,
+    @SerializedName("subject") val subject: String,
+    @SerializedName("body") val body: String
 )

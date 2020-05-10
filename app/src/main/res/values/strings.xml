@@ -9,5 +9,5 @@
     <string name="save">Save</string>
     <string name="send">Send</string>
     <string name="last_modified">Last modified %1$s</string>
-    <string name="created">Created %1$s</string>
+    <string name="published">Published %1$s</string>
 </resources>

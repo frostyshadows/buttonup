@@ -8,31 +8,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sherryyuan.buttonup.R
 import com.sherryyuan.buttonup.utils.toHumanReadableDateString
 
-class ArchivesListAdapter(private val drafts: List<SentNewsletter>) :
+class ArchivesListAdapter(private val emails: List<SentEmail>) :
     RecyclerView.Adapter<ArchivesListAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nameText: TextView = view.findViewById(R.id.name_text)
-        val descriptionText: TextView = view.findViewById(R.id.description_text)
-        val creationDateText: TextView = view.findViewById(R.id.creation_date_text)
+        val subjectText: TextView = view.findViewById(R.id.subject_text)
+        val bodyText: TextView = view.findViewById(R.id.body_text)
+        val publishedDateText: TextView = view.findViewById(R.id.published_date_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_newsletter, parent, false)
+                .inflate(R.layout.item_email, parent, false)
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
-            nameText.text = drafts[position].name
-            descriptionText.text = drafts[position].description
-            creationDateText.text = creationDateText.context.getString(
-                R.string.created,
-                drafts[position].creationDate.toHumanReadableDateString()
+            subjectText.text = emails[position].subject
+            bodyText.text = emails[position].body
+            publishedDateText.text = publishedDateText.context.getString(
+                R.string.published,
+                emails[position].creationDate.toHumanReadableDateString()
             )
         }
     }
 
-    override fun getItemCount() = drafts.size
+    override fun getItemCount() = emails.size
 }

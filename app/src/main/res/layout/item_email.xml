@@ -14,7 +14,7 @@
         android:layout_margin="@dimen/activity_default_margin">
 
         <TextView
-            android:id="@+id/name_text"
+            android:id="@+id/subject_text"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             tools:text="Name" />
 
         <TextView
-            android:id="@+id/description_text"
+            android:id="@+id/body_text"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,19 +33,19 @@
             android:maxLines="3"
             android:textColor="@color/colorTextDark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_text"
+            app:layout_constraintTop_toBottomOf="@id/subject_text"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
         <TextView
-            android:id="@+id/creation_date_text"
+            android:id="@+id/published_date_text"
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_margin"
             android:textColor="@color/colorTextLight"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description_text"
-            tools:text="April 20, 2020" />
+            app:layout_constraintTop_toBottomOf="@id/body_text"
+            tools:text="Published April 20, 2020" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

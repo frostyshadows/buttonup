@@ -1,7 +1,7 @@
 package com.sherryyuan.buttonup.archives
 
 import com.sherryyuan.buttonup.MainApplication.Companion.appModule
-import com.sherryyuan.buttonup.archives.repository.NewslettersRepository
+import com.sherryyuan.buttonup.archives.repository.EmailsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +17,7 @@ class ArchivesPresenter(override val view: ArchivesContract.View) : ArchivesCont
         import(appModule)
     }
 
-    private val repository: NewslettersRepository by instance()
+    private val repository: EmailsRepository by instance()
 
     private lateinit var compositeDisposable: CompositeDisposable
 
@@ -37,11 +37,11 @@ class ArchivesPresenter(override val view: ArchivesContract.View) : ArchivesCont
     private fun fetchNewsletters(forceRefresh: Boolean = false) {
         compositeDisposable.add(
             repository
-                .getNewsletters(forceRefresh)
+                .getEmails(forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ newsletters ->
-                    view.updateNewsletters(newsletters.sortedByDescending { it.creationDate })
+                .subscribe({ emails ->
+                    view.updateEmails(emails.sortedByDescending { it.creationDate })
                 }, {
                     Timber.e(it)
                 })
