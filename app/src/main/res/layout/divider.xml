@@ -3,5 +3,5 @@
     android:id="@+id/divider"
     android:layout_width="match_parent"
     android:layout_height="1dp"
-    android:layout_margin="@dimen/card_margin"
+    android:layout_margin="@dimen/size_8"
     android:background="@color/colorDivider" />

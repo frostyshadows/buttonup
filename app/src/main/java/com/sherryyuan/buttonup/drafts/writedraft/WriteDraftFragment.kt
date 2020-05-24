@@ -4,24 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.textfield.TextInputEditText
 import com.sherryyuan.buttonup.R
+import com.sherryyuan.buttonup.databinding.FragmentWriteDraftBinding
 import com.sherryyuan.buttonup.drafts.LocalDraft
 
-class WriteDraftFragment(val dismissListener: WriteDraftContract.DismissListener) :
+class WriteDraftFragment(private val dismissListener: WriteDraftContract.DismissListener) :
     WriteDraftContract.View, DialogFragment() {
 
     override lateinit var presenter: WriteDraftContract.Presenter
 
-    private lateinit var subjectText: TextInputEditText
-    private lateinit var bodyText: TextInputEditText
-    private lateinit var saveButton: Button
-    private lateinit var sendButton: Button
-    private lateinit var closeButton: ImageButton
+    private lateinit var binding: FragmentWriteDraftBinding
 
     override fun onStart() {
         super.onStart()
@@ -30,21 +27,21 @@ class WriteDraftFragment(val dismissListener: WriteDraftContract.DismissListener
         presenter.start()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_write_draft, container, false).apply {
-            subjectText = findViewById(R.id.subject_text)
-            bodyText = findViewById(R.id.body_text)
-            saveButton = findViewById(R.id.save_button)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentWriteDraftBinding.inflate(inflater, container, false)
+        return binding.root.also {
+            setupEditText()
             setupSaveButton()
-            sendButton = findViewById(R.id.send_button)
-            closeButton = findViewById(R.id.close_button)
             setupCloseButton()
         }
     }
 
     override fun onStop() {
         super.onStop()
-
         presenter.stop()
     }
 
@@ -56,18 +53,36 @@ class WriteDraftFragment(val dismissListener: WriteDraftContract.DismissListener
     override fun onDraftSaved() {
         Toast.makeText(context, "Draft saved", Toast.LENGTH_SHORT).show()
         dismiss()
+    }
 
+    private fun setupEditText() {
+        binding.apply {
+            bodyText.addTextChangedListener { editable ->
+                val wordCount: Int =
+                    editable.toString().split(" *").filter { it.isNotBlank() }.count()
+                wordCountText.text = HtmlCompat.fromHtml(
+                    wordCountText.context.getString(R.string.word_count, wordCount),
+                    FROM_HTML_MODE_COMPACT
+                )
+            }
+        }
     }
 
     private fun setupSaveButton() {
-        saveButton.setOnClickListener {
-            val draft = LocalDraft(subjectText.text.toString(), bodyText.text.toString())
-            presenter.saveDraft(draft)
+        binding.apply {
+            saveButton.setOnClickListener {
+                val draft =
+                    LocalDraft(
+                        subjectText.text.toString(),
+                        bodyText.text.toString()
+                    )
+                presenter.saveDraft(draft)
+            }
         }
     }
 
     private fun setupCloseButton() {
-        closeButton.setOnClickListener {
+        binding.closeButton.setOnClickListener {
             // TODO: Add a confirmation modal.
             dismiss()
         }

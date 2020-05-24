@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.sherryyuan.buttonup.R
+import com.sherryyuan.buttonup.databinding.FragmentDraftsListBinding
 import com.sherryyuan.buttonup.drafts.SavedDraft
-import com.sherryyuan.buttonup.utils.toHumanReadableDateString
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 
@@ -24,8 +21,7 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
 
     private var drafts: MutableList<SavedDraft> = mutableListOf()
 
-    private lateinit var swipeContainer: SwipeRefreshLayout
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentDraftsListBinding
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
 
@@ -36,9 +32,14 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
         presenter.start()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_drafts_list, container, false).apply {
-            setupDraftsList(this)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentDraftsListBinding.inflate(inflater, container, false)
+        return binding.root.also {
+            setupDraftsList(it)
         }
     }
 
@@ -49,7 +50,7 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
     }
 
     override fun updateDrafts(drafts: List<SavedDraft>) {
-        swipeContainer.isRefreshing = false
+        binding.swipeContainer.isRefreshing = false
         this.drafts.clear()
         this.drafts.addAll(drafts)
         viewAdapter.notifyDataSetChanged()
@@ -59,10 +60,8 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
         viewManager = LinearLayoutManager(context)
         viewAdapter = DraftsAdapter(drafts)
 
-        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
-            setOnRefreshListener { presenter.refresh() }
-        }
-        recyclerView = view.findViewById<RecyclerView>(R.id.list_drafts).apply {
+        binding.swipeContainer.setOnRefreshListener { presenter.refresh() }
+        binding.listDrafts.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter

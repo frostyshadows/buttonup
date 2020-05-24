@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sherryyuan.buttonup.archives.ArchivesListFragment
+import com.sherryyuan.buttonup.databinding.ActivityMainBinding
 import com.sherryyuan.buttonup.drafts.draftslist.DraftsListFragment
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftContract
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftFragment
@@ -18,7 +19,7 @@ class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
 
     @IdRes
     private val fragmentContainerId: Int = R.id.fragment_container
-    private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var binding: ActivityMainBinding
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -40,10 +41,9 @@ class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupBottomNavigation()
-        floatingActionButton = findViewById(R.id.fab)
         setupFloatingActionButton()
     }
 
@@ -53,24 +53,22 @@ class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
         if (inputMethodManager.isAcceptingText) {
             inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, /*flags:*/ 0)
         }
-        floatingActionButton.isVisible = true
+        binding.floatingActionButton.isVisible = true
     }
 
     private fun setupBottomNavigation() {
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        navView.selectedItemId = R.id.navigation_drafts
+        binding.navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        binding.navView.selectedItemId = R.id.navigation_drafts
     }
 
     private fun setupFloatingActionButton() {
-        floatingActionButton.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             supportFragmentManager
                 .beginTransaction()
                 .add(fragmentContainerId, WriteDraftFragment(this))
                 .addToBackStack(null)
                 .commit()
-            floatingActionButton.isVisible = false
+            binding.floatingActionButton.isVisible = false
         }
     }
 

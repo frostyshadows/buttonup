@@ -1,5 +1,6 @@
 package com.sherryyuan.buttonup.archives
 
+import androidx.lifecycle.ViewModel
 import com.sherryyuan.buttonup.MainApplication.Companion.appModule
 import com.sherryyuan.buttonup.archives.repository.EmailsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
