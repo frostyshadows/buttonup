@@ -10,4 +10,7 @@
     <string name="send">Send</string>
     <string name="last_modified">Last modified %1$s</string>
     <string name="published">Published %1$s</string>
+    <string name="written_zero_words">You\'ve written 0 words.</string>
+    <string name="written_x_words"><![CDATA[You\'ve written <b>%1$d</b> words.]]></string>
+    <string name="x_word_count">%1$d words</string>
 </resources>

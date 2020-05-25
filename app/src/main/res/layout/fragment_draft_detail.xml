@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/size_16">
+
+    <TextView
+        android:id="@+id/subject_text"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Your Weekend Briefing" />
+
+    <TextView
+        android:id="@+id/body_text"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_16"
+        android:minHeight="@dimen/size_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subject_text"
+        tools:text="        Stilton goat cheesy feet. Danish fontina boursin everyone loves cheese triangles bavarian bergkase halloumi camembert de normandie cottage cheese. Cow port-salut jarlsberg cheesy feet babybel boursin danish fontina camembert de normandie. Cheese and biscuits cut the cheese edam emmental when the cheese comes out everybody's happy pepper jack when the cheese comes out everybody's happy stinking bishop. St. agur blue cheese.
+        \n
+        \n
+        Monterey jack melted cheese bocconcini. Red leicester blue castello paneer fromage queso cheese on toast queso smelly cheese. Fromage frais ricotta cheese on toast cheddar caerphilly danish fontina cheese triangles brie. Cheese and biscuits hard cheese.
+        \n
+        \n
+        Bavarian bergkase cheesy feet macaroni cheese. Everyone loves rubber cheese fromage frais mozzarella bocconcini dolcelatte red leicester lancashire. Cream cheese feta fondue gouda stilton cut the cheese cheese slices danish fontina. Cheese strings cauliflower cheese." />
+
+    <include
+        android:id="@+id/second_divider"
+        layout="@layout/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/size_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/body_text" />
+
+    <TextView
+        android:id="@+id/word_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8"
+        android:textColor="@color/colorTextLight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_divider"
+        tools:text="100 words" />
+
+    <TextView
+        android:id="@+id/modification_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8"
+        android:textColor="@color/colorTextLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_divider"
+        tools:text="Last modified April 20, 2020" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sherryyuan.buttonup.R
+import com.sherryyuan.buttonup.databinding.FragmentSubscribersBinding
 
 class SubscribersFragment : SubscribersContract.View, Fragment() {
 
@@ -17,8 +17,7 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
 
     private var subscribers: MutableList<Subscriber> = mutableListOf()
 
-    private lateinit var swipeContainer: SwipeRefreshLayout
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentSubscribersBinding
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
 
@@ -29,20 +28,24 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
         presenter.start()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_subscribers, container, false).apply {
-            setupSubscribersList(this)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSubscribersBinding.inflate(inflater, container, false)
+        return binding.root.also {
+            setupSubscribersList(it)
         }
     }
 
     override fun onStop() {
         super.onStop()
-
         presenter.stop()
     }
 
     override fun updateSubscribersList(subscribers: List<Subscriber>) {
-        swipeContainer.isRefreshing = false
+        binding.swipeContainer.isRefreshing = false
         this.subscribers.clear()
         this.subscribers.addAll(subscribers)
         viewAdapter.notifyDataSetChanged()
@@ -52,11 +55,9 @@ class SubscribersFragment : SubscribersContract.View, Fragment() {
         viewManager = LinearLayoutManager(context)
         viewAdapter = SubscribersAdapter(subscribers)
 
-        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
-            setOnRefreshListener { presenter.refresh() }
-        }
+        binding.swipeContainer.setOnRefreshListener { presenter.refresh() }
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.list_subscribers).apply {
+        binding.listSubscribers.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter

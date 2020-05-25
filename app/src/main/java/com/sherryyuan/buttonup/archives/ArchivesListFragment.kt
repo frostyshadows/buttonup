@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.sherryyuan.buttonup.R
+import com.sherryyuan.buttonup.databinding.FragmentArchivesListBinding
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 
@@ -21,32 +20,34 @@ class ArchivesListFragment : ArchivesContract.View, Fragment(), KodeinAware {
 
     private var emails: MutableList<SentEmail> = mutableListOf()
 
-    private lateinit var swipeContainer: SwipeRefreshLayout
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentArchivesListBinding
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
 
     override fun onStart() {
         super.onStart()
-
         presenter = ArchivesPresenter(this)
         presenter.start()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_archives_list, container, false).apply {
-            setupNewslettersList(this)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentArchivesListBinding.inflate(inflater, container, false)
+        return binding.root.also {
+            setupNewslettersList(it)
         }
     }
 
     override fun onStop() {
         super.onStop()
-
         presenter.stop()
     }
 
     override fun updateEmails(emails: List<SentEmail>) {
-        swipeContainer.isRefreshing = false
+        binding.swipeContainer.isRefreshing = false
         this.emails.clear()
         this.emails.addAll(emails)
         viewAdapter.notifyDataSetChanged()
@@ -56,10 +57,8 @@ class ArchivesListFragment : ArchivesContract.View, Fragment(), KodeinAware {
         viewManager = LinearLayoutManager(context)
         viewAdapter = ArchivesListAdapter(emails)
 
-        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container).apply {
-            setOnRefreshListener { presenter.refresh() }
-        }
-        recyclerView = view.findViewById<RecyclerView>(R.id.list_archives).apply {
+        binding.swipeContainer.setOnRefreshListener { presenter.refresh() }
+        binding.listArchives.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
