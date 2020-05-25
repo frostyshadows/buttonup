@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_drafts"
-            android:icon="@drawable/drafts"
-            android:title="@string/drafts"/>
+        android:id="@+id/draftsListFragment"
+        android:icon="@drawable/drafts"
+        android:title="@string/drafts" />
 
     <item
-            android:id="@+id/navigation_subscribers"
-            android:icon="@drawable/people"
-            android:title="@string/subscribers"/>
+        android:id="@+id/subscribersFragment"
+        android:icon="@drawable/people"
+        android:title="@string/subscribers" />
 
     <item
-            android:id="@+id/navigation_archives"
-            android:icon="@drawable/archive"
-            android:title="@string/archives"/>
+        android:id="@+id/archivesListFragment"
+        android:icon="@drawable/archive"
+        android:title="@string/archives" />
 
 </menu>

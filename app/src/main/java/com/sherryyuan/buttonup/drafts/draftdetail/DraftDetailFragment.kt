@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import com.sherryyuan.buttonup.R
 import com.sherryyuan.buttonup.databinding.FragmentDraftDetailBinding
+import com.sherryyuan.buttonup.utils.countWords
 
 class DraftDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDraftDetailBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val args: DraftDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,4 +24,14 @@ class DraftDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.apply {
+            subjectText.text = args.subject
+            bodyText.text = args.body
+            wordCountText.text = wordCountText.context.getString(
+                R.string.x_word_count, args.body.countWords()
+            )
+            modificationDateText.text = args.modificationDate
+        }
+    }
 }

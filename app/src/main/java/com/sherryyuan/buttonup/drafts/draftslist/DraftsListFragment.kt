@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sherryyuan.buttonup.databinding.FragmentDraftsListBinding
@@ -58,7 +59,7 @@ class DraftsListFragment : DraftsListContract.View, Fragment(), KodeinAware {
 
     private fun setupDraftsList(view: View) {
         viewManager = LinearLayoutManager(context)
-        viewAdapter = DraftsAdapter(drafts)
+        viewAdapter = DraftsAdapter(drafts, findNavController())
 
         binding.swipeContainer.setOnRefreshListener { presenter.refresh() }
         binding.listDrafts.apply {

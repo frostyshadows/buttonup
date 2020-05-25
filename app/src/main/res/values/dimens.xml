@@ -2,4 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="size_16">16dp</dimen>
     <dimen name="size_8">8dp</dimen>
+    <dimen name="size_200">200dp</dimen>
 </resources>

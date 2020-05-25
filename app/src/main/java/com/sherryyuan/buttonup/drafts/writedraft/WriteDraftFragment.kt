@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.sherryyuan.buttonup.R
 import com.sherryyuan.buttonup.databinding.FragmentWriteDraftBinding
 import com.sherryyuan.buttonup.drafts.LocalDraft
+import com.sherryyuan.buttonup.utils.countWords
 
 class WriteDraftFragment(private val dismissListener: WriteDraftContract.DismissListener) :
     WriteDraftContract.View, DialogFragment() {
@@ -59,9 +60,9 @@ class WriteDraftFragment(private val dismissListener: WriteDraftContract.Dismiss
         binding.apply {
             bodyText.addTextChangedListener { editable ->
                 val wordCount: Int =
-                    editable.toString().split(" *").filter { it.isNotBlank() }.count()
+                    editable.toString().countWords()
                 wordCountText.text = HtmlCompat.fromHtml(
-                    wordCountText.context.getString(R.string.word_count, wordCount),
+                    wordCountText.context.getString(R.string.written_x_words, wordCount),
                     FROM_HTML_MODE_COMPACT
                 )
             }
@@ -71,11 +72,7 @@ class WriteDraftFragment(private val dismissListener: WriteDraftContract.Dismiss
     private fun setupSaveButton() {
         binding.apply {
             saveButton.setOnClickListener {
-                val draft =
-                    LocalDraft(
-                        subjectText.text.toString(),
-                        bodyText.text.toString()
-                    )
+                val draft = LocalDraft(subjectText.text.toString(), bodyText.text.toString())
                 presenter.saveDraft(draft)
             }
         }

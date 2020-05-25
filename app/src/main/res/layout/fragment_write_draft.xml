@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/size_8"
-        android:text="@string/zero_word_count"
+        android:text="@string/written_zero_words"
         android:textColor="@color/colorTextLight"
         app:layout_constraintBottom_toTopOf="@id/save_button"
         app:layout_constraintStart_toStartOf="parent" />

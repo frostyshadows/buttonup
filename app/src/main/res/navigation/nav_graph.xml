@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/draftsListFragment">
+    <fragment
+        android:id="@+id/draftsListFragment"
+        android:name="com.sherryyuan.buttonup.drafts.draftslist.DraftsListFragment"
+        android:label="DraftsListFragment">
+        <action
+            android:id="@+id/action_draftsListFragment_to_draftDetailFragment"
+            app:destination="@id/draftDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/draftDetailFragment"
+        android:name="com.sherryyuan.buttonup.drafts.draftdetail.DraftDetailFragment"
+        android:label="DraftDetailFragment">
+        <argument
+            android:name="subject"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="body"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="modificationDate"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/archivesListFragment"
+        android:name="com.sherryyuan.buttonup.archives.ArchivesListFragment"
+        android:label="ArchivesListFragment" />
+    <fragment
+        android:id="@+id/subscribersFragment"
+        android:name="com.sherryyuan.buttonup.subscribers.SubscribersFragment"
+        android:label="SubscribersFragment" />
+    <dialog
+        android:id="@+id/writeDraftFragment"
+        android:name="com.sherryyuan.buttonup.drafts.writedraft.WriteDraftFragment"
+        android:label="WriteDraftFragment" />
+
+</navigation>

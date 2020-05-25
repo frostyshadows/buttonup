@@ -6,77 +6,59 @@ import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.sherryyuan.buttonup.archives.ArchivesListFragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.sherryyuan.buttonup.databinding.ActivityMainBinding
-import com.sherryyuan.buttonup.drafts.draftslist.DraftsListFragment
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftContract
 import com.sherryyuan.buttonup.drafts.writedraft.WriteDraftFragment
-import com.sherryyuan.buttonup.subscribers.SubscribersFragment
 
-class MainActivity : WriteDraftContract.DismissListener, FragmentActivity() {
+private const val TAG_WRITE_DRAFT = "tag_write_draft"
+
+class MainActivity : FragmentActivity(), WriteDraftContract.DismissListener {
 
     @IdRes
-    private val fragmentContainerId: Int = R.id.fragment_container
+    private val fragmentContainerId: Int = R.id.nav_host_fragment
+    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_drafts -> {
-                replaceFragment(DraftsListFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_subscribers -> {
-                replaceFragment(SubscribersFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_archives -> {
-                replaceFragment(ArchivesListFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupBottomNavigation()
+        navController = findNavController(R.id.nav_host_fragment)
+        NavigationUI.setupWithNavController(binding.bottomNavView, navController)
         setupFloatingActionButton()
+    }
+
+    override fun onBackPressed() {
+        val writeDraftFragment: Fragment? =
+            supportFragmentManager.findFragmentByTag(TAG_WRITE_DRAFT)
+        if (writeDraftFragment != null && writeDraftFragment.isVisible) {
+            // If the fragment we're leaving is WriteDraftFragment,
+            // make the floating action button reappear.
+            onWriteDraftDismissed()
+        }
+        super.onBackPressed()
     }
 
     override fun onWriteDraftDismissed() {
         // Hide keyboard.
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (inputMethodManager.isAcceptingText) {
-            inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, /*flags:*/ 0)
+            inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
         }
         binding.floatingActionButton.isVisible = true
-    }
-
-    private fun setupBottomNavigation() {
-        binding.navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        binding.navView.selectedItemId = R.id.navigation_drafts
     }
 
     private fun setupFloatingActionButton() {
         binding.floatingActionButton.setOnClickListener {
             supportFragmentManager
                 .beginTransaction()
-                .add(fragmentContainerId, WriteDraftFragment(this))
+                .add(fragmentContainerId, WriteDraftFragment(this), TAG_WRITE_DRAFT)
                 .addToBackStack(null)
                 .commit()
             binding.floatingActionButton.isVisible = false
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(fragmentContainerId, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }
